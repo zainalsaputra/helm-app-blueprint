@@ -1,8 +1,8 @@
-# app-template — reusable Helm application chart
+# Helm App Blueprint
 
-[![Lint and test chart](https://github.com/zainalsaputra/app-template/actions/workflows/lint-test.yaml/badge.svg)](https://github.com/zainalsaputra/app-template/actions/workflows/lint-test.yaml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/zainalsaputra/app-template/badge)](https://securityscorecards.dev/viewer/?uri=github.com/zainalsaputra/app-template)
-[![License](https://img.shields.io/github/license/zainalsaputra/app-template)](LICENSE)
+[![Lint and test chart](https://github.com/zainalsaputra/helm-app-blueprint/actions/workflows/lint-test.yaml/badge.svg)](https://github.com/zainalsaputra/helm-app-blueprint/actions/workflows/lint-test.yaml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/zainalsaputra/helm-app-blueprint/badge)](https://securityscorecards.dev/viewer/?uri=github.com/zainalsaputra/helm-app-blueprint)
+[![License](https://img.shields.io/github/license/zainalsaputra/helm-app-blueprint)](LICENSE)
 
 A reusable, secure-by-default Helm chart for deploying containerized web applications on Kubernetes.
 
@@ -22,7 +22,7 @@ The chart starts simple, but exposes production controls without coupling applic
 From a local clone:
 
 ```bash
-helm install my-app ./charts/app-template \
+helm install my-app ./charts/app-blueprint \
   --set image.repository=ghcr.io/example/my-app \
   --set image.tag=1.0.0 \
   --set container.ports.http.containerPort=3000
@@ -31,31 +31,31 @@ helm install my-app ./charts/app-template \
 From the published repository after the first release:
 
 ```bash
-helm repo add app-template https://zainalsaputra.github.io/app-template
+helm repo add helm-app-blueprint https://zainalsaputra.github.io/helm-app-blueprint
 helm repo update
-helm install my-app app-template/app-template
+helm install my-app helm-app-blueprint/app-blueprint
 ```
 
 Or from OCI:
 
 ```bash
-helm install my-app oci://ghcr.io/zainalsaputra/charts/app-template --version 0.1.2
+helm install my-app oci://ghcr.io/zainalsaputra/charts/app-blueprint --version 0.2.0
 ```
 
 ## Common examples
 
 ```bash
 # Minimal application
-helm template demo ./charts/app-template -f examples/minimal-values.yaml
+helm template demo ./charts/app-blueprint -f examples/minimal-values.yaml
 
 # Production controls
-helm template demo ./charts/app-template -f examples/production-values.yaml
+helm template demo ./charts/app-blueprint -f examples/production-values.yaml
 
 # Externally managed Secret
-helm template demo ./charts/app-template -f examples/existing-secret-values.yaml
+helm template demo ./charts/app-blueprint -f examples/existing-secret-values.yaml
 
 # Migration hook
-helm template demo ./charts/app-template -f examples/migration-values.yaml
+helm template demo ./charts/app-blueprint -f examples/migration-values.yaml
 ```
 
 ## Secret handling
@@ -73,9 +73,24 @@ secret:
 
 The current chart targets stateless and optionally persistent applications managed by a Kubernetes Deployment. StatefulSet, DaemonSet, and CronJob controllers are intentionally outside the v0.x scope so the values contract stays approachable and stable.
 
+## Upgrading from app-template 0.1.x
+
+Version `0.2.0` renames the chart and its default Kubernetes resource names. For an existing release that did not already set `nameOverride` or `fullnameOverride`, preserve its immutable selectors during the first upgrade:
+
+```bash
+helm repo add helm-app-blueprint https://zainalsaputra.github.io/helm-app-blueprint
+helm repo update
+helm upgrade my-app helm-app-blueprint/app-blueprint \
+  --version 0.2.0 \
+  --reuse-values \
+  --set nameOverride=app-template
+```
+
+Keep your existing override unchanged if the release already defines one. New installations do not need this compatibility setting.
+
 ## Documentation
 
-- [Chart values](charts/app-template/README.md)
+- [Chart values](charts/app-blueprint/README.md)
 - [Publishing guide](docs/PUBLISHING.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
@@ -83,10 +98,10 @@ The current chart targets stateless and optionally persistent applications manag
 ## Validation
 
 ```bash
-helm lint --strict ./charts/app-template
-helm template test ./charts/app-template
-helm template test ./charts/app-template -f examples/production-values.yaml
-helm unittest ./charts/app-template
+helm lint --strict ./charts/app-blueprint
+helm template test ./charts/app-blueprint
+helm template test ./charts/app-blueprint -f examples/production-values.yaml
+helm unittest ./charts/app-blueprint
 ```
 
 CI also validates rendered manifests with kubeconform and installs the chart into a temporary Kind cluster through Helm chart-testing.

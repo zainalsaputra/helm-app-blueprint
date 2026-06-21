@@ -78,7 +78,7 @@ topologySpreadConstraints:
     whenUnsatisfiable: ScheduleAnyway
     labelSelector:
       matchLabels:
-        app.kubernetes.io/name: app-template
+        app.kubernetes.io/name: app-blueprint
 
 networkPolicy:
   enabled: true

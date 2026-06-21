@@ -5,9 +5,9 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ include "app-template.fullname" . }}
+  name: {{ include "app-blueprint.fullname" . }}
   labels:
-    {{- include "app-template.labels" . | nindent 4 }}
+    {{- include "app-blueprint.labels" . | nindent 4 }}
 spec:
   {{- if ne (toString .Values.podDisruptionBudget.minAvailable) "" }}
   minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
@@ -16,5 +16,5 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "app-template.selectorLabels" . | nindent 6 }}
+      {{- include "app-blueprint.selectorLabels" . | nindent 6 }}
 {{- end }}

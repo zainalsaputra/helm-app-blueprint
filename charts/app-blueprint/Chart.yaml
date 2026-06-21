@@ -1,0 +1,39 @@
+apiVersion: v2
+name: app-blueprint
+description: A reusable, secure-by-default Helm chart for containerized web applications
+type: application
+version: 0.2.0
+appVersion: "1.27-alpine"
+kubeVersion: ">=1.27.0-0"
+keywords:
+  - application
+  - cloud-native
+  - devops
+  - deployment
+  - gitops
+  - helm
+  - helm-chart
+  - kubernetes
+  - web
+  - api
+home: https://github.com/zainalsaputra/helm-app-blueprint
+icon: https://raw.githubusercontent.com/zainalsaputra/helm-app-blueprint/main/assets/icon.svg
+sources:
+  - https://github.com/zainalsaputra/helm-app-blueprint
+maintainers:
+  - name: Zainal Saputra
+    email: zainalsaputra@users.noreply.github.com
+    url: https://github.com/zainalsaputra
+annotations:
+  artifacthub.io/alternativeName: helm-app-blueprint
+  artifacthub.io/category: integration-delivery
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Rename the chart from app-template to app-blueprint
+    - kind: changed
+      description: Move the project to the helm-app-blueprint repository identity
+    - kind: added
+      description: Document the upgrade path for existing app-template releases
+    - kind: fixed
+      description: Include the canonical Apache License 2.0 text

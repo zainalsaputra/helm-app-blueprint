@@ -3,7 +3,7 @@ name: Release chart to OCI
 on:
   push:
     tags:
-      - app-template-*
+      - app-blueprint-*
   workflow_dispatch:
     inputs:
       version:
@@ -31,10 +31,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          chart_version=$(helm show chart ./charts/app-template | awk '/^version:/ { print $2 }')
+          chart_version=$(helm show chart ./charts/app-blueprint | awk '/^version:/ { print $2 }')
           requested_version="${{ inputs.version }}"
           if [[ -z "${requested_version}" ]]; then
-            requested_version="${GITHUB_REF_NAME#app-template-}"
+            requested_version="${GITHUB_REF_NAME#app-blueprint-}"
           fi
           test "${chart_version}" = "${requested_version}"
 
@@ -50,5 +50,5 @@ jobs:
         run: |
           set -euo pipefail
           owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          helm package ./charts/app-template --destination ./dist
-          helm push ./dist/app-template-*.tgz "oci://ghcr.io/${owner}/charts"
+          helm package ./charts/app-blueprint --destination ./dist
+          helm push ./dist/app-blueprint-*.tgz "oci://ghcr.io/${owner}/charts"

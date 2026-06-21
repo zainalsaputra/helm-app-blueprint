@@ -1,4 +1,4 @@
-# app-template chart
+# App Blueprint chart
 
 Deploy a containerized web application using a Kubernetes Deployment.
 
@@ -10,7 +10,7 @@ Deploy a containerized web application using a Kubernetes Deployment.
 ## Install
 
 ```bash
-helm install my-app ./charts/app-template \
+helm install my-app ./charts/app-blueprint \
   --set image.repository=ghcr.io/example/my-app \
   --set image.tag=1.0.0
 ```
@@ -98,6 +98,5 @@ Set `persistence.existingClaim` to reuse a PVC. The chart does not create Storag
 Chart versions follow Semantic Versioning. Breaking values changes require a new major chart version. Always inspect changes before upgrade:
 
 ```bash
-helm diff upgrade my-app app-template/app-template -f my-values.yaml
+helm diff upgrade my-app helm-app-blueprint/app-blueprint -f my-values.yaml
 ```
-

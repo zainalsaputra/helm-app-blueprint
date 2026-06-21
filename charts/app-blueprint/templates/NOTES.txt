@@ -11,7 +11,7 @@ Application endpoints:
 {{- end }}
 Run the following command to access the application locally:
 
-  kubectl --namespace {{ .Release.Namespace }} port-forward svc/{{ include "app-template.fullname" . }} 8080:{{ (index .Values.service.ports .Values.tests.servicePort).port }}
+  kubectl --namespace {{ .Release.Namespace }} port-forward svc/{{ include "app-blueprint.fullname" . }} 8080:{{ (index .Values.service.ports .Values.tests.servicePort).port }}
 
 Then open http://127.0.0.1:8080
 {{- else }}

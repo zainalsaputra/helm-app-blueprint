@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "app-template.fullname" . }}
+  name: {{ include "app-blueprint.fullname" . }}
   labels:
-    {{- include "app-template.labels" . | nindent 4 }}
+    {{- include "app-blueprint.labels" . | nindent 4 }}
   {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -15,7 +15,7 @@ spec:
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
-      {{- include "app-template.selectorLabels" . | nindent 6 }}
+      {{- include "app-blueprint.selectorLabels" . | nindent 6 }}
   strategy:
     {{- toYaml .Values.deployment.strategy | nindent 4 }}
   template:
@@ -31,12 +31,12 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "app-template.selectorLabels" . | nindent 8 }}
+        {{- include "app-blueprint.selectorLabels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      serviceAccountName: {{ include "app-template.serviceAccountName" . }}
+      serviceAccountName: {{ include "app-blueprint.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automount }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -49,8 +49,8 @@ spec:
         {{- tpl (toYaml .) $ | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ include "app-template.name" . }}
-          image: {{ include "app-template.image" . | quote }}
+        - name: {{ include "app-blueprint.name" . }}
+          image: {{ include "app-blueprint.image" . | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -73,15 +73,15 @@ spec:
               protocol: {{ default "TCP" $port.protocol }}
             {{- end }}
           {{- end }}
-          {{- if eq (include "app-template.hasEnvFrom" .) "true" }}
+          {{- if eq (include "app-blueprint.hasEnvFrom" .) "true" }}
           envFrom:
             {{- if .Values.configMap.create }}
             - configMapRef:
-                name: {{ include "app-template.configMapName" . }}
+                name: {{ include "app-blueprint.configMapName" . }}
             {{- end }}
             {{- if or .Values.secret.create .Values.secret.existingSecret }}
             - secretRef:
-                name: {{ include "app-template.secretName" . }}
+                name: {{ include "app-blueprint.secretName" . }}
             {{- end }}
             {{- with .Values.envFrom }}
             {{- tpl (toYaml .) $ | nindent 12 }}
@@ -133,7 +133,7 @@ spec:
         {{- if .Values.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
-            claimName: {{ default (include "app-template.fullname" .) .Values.persistence.existingClaim }}
+            claimName: {{ default (include "app-blueprint.fullname" .) .Values.persistence.existingClaim }}
         {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}

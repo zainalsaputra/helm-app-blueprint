@@ -2,9 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "app-template.fullname" . }}-migration
+  name: {{ include "app-blueprint.fullname" . }}-migration
   labels:
-    {{- include "app-template.labels" . | nindent 4 }}
+    {{- include "app-blueprint.labels" . | nindent 4 }}
     app.kubernetes.io/component: migration
   annotations:
     {{- if .Values.migration.hook.enabled }}
@@ -21,11 +21,11 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "app-template.selectorLabels" . | nindent 8 }}
+        {{- include "app-blueprint.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: migration
     spec:
       restartPolicy: Never
-      serviceAccountName: {{ include "app-template.serviceAccountName" . }}
+      serviceAccountName: {{ include "app-blueprint.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automount }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -35,7 +35,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: migration
-          image: {{ include "app-template.image" . | quote }}
+          image: {{ include "app-blueprint.image" . | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -47,15 +47,15 @@ spec:
           args:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if eq (include "app-template.hasEnvFrom" .) "true" }}
+          {{- if eq (include "app-blueprint.hasEnvFrom" .) "true" }}
           envFrom:
             {{- if .Values.configMap.create }}
             - configMapRef:
-                name: {{ include "app-template.configMapName" . }}
+                name: {{ include "app-blueprint.configMapName" . }}
             {{- end }}
             {{- if or .Values.secret.create .Values.secret.existingSecret }}
             - secretRef:
-                name: {{ include "app-template.secretName" . }}
+                name: {{ include "app-blueprint.secretName" . }}
             {{- end }}
             {{- with .Values.envFrom }}
             {{- tpl (toYaml .) $ | nindent 12 }}

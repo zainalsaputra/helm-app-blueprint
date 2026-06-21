@@ -2,9 +2,9 @@
 
 ## 1. Verify repository identity
 
-Repository metadata is configured for `zainalsaputra/app-template`. Before moving the project to another GitHub owner, update:
+Repository metadata is configured for `zainalsaputra/helm-app-blueprint`. Before moving the project to another GitHub owner, update:
 
-- `charts/app-template/Chart.yaml`
+- `charts/app-blueprint/Chart.yaml`
 - `cr.yaml`
 - `README.md`
 
@@ -25,9 +25,9 @@ Create an empty `gh-pages` branch and configure GitHub Pages to serve it. The `r
 Install after publishing:
 
 ```bash
-helm repo add app-template https://zainalsaputra.github.io/app-template
+helm repo add helm-app-blueprint https://zainalsaputra.github.io/helm-app-blueprint
 helm repo update
-helm install my-app app-template/app-template
+helm install my-app helm-app-blueprint/app-blueprint
 ```
 
 ## 4. Publish OCI
@@ -35,11 +35,11 @@ helm install my-app app-template/app-template
 Create and push a tag matching the chart:
 
 ```bash
-git tag app-template-0.1.2
-git push origin app-template-0.1.2
+git tag app-blueprint-0.2.0
+git push origin app-blueprint-0.2.0
 ```
 
-The OCI workflow verifies that the Git tag matches `Chart.yaml`, packages the chart, and pushes it to `ghcr.io/<owner>/charts/app-template`.
+The OCI workflow verifies that the Git tag matches `Chart.yaml`, packages the chart, and pushes it to `ghcr.io/<owner>/charts/app-blueprint`.
 
 For first-time publishing or recovery, the same workflow can be started manually with the chart version as its input.
 

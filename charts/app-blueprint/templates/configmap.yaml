@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "app-template.configMapName" . }}
+  name: {{ include "app-blueprint.configMapName" . }}
   labels:
-    {{- include "app-template.labels" . | nindent 4 }}
+    {{- include "app-blueprint.labels" . | nindent 4 }}
 data:
   {{- range $key, $value := .Values.configMap.data }}
   {{ $key }}: {{ tpl ($value | toString) $ | quote }}

@@ -123,7 +123,7 @@ ingress:
   annotations: {}
   # ingress.hosts defines hosts and HTTP paths.
   hosts:
-    - host: app-template.local
+    - host: app-blueprint.local
       paths:
         - path: /
           pathType: Prefix

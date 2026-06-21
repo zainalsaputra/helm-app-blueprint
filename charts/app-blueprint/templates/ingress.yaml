@@ -5,9 +5,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "app-template.fullname" . }}
+  name: {{ include "app-blueprint.fullname" . }}
   labels:
-    {{- include "app-template.labels" . | nindent 4 }}
+    {{- include "app-blueprint.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -33,7 +33,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ include "app-template.fullname" $ }}
+                name: {{ include "app-blueprint.fullname" $ }}
                 port:
                   name: {{ .servicePort }}
           {{- end }}

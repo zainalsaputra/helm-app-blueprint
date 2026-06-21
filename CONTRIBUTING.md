@@ -14,12 +14,12 @@ Requirements:
 Run the local checks:
 
 ```bash
-helm lint --strict ./charts/app-template
-helm template test ./charts/app-template
-helm unittest ./charts/app-template
+helm lint --strict ./charts/app-blueprint
+helm template test ./charts/app-blueprint
+helm unittest ./charts/app-blueprint
 
 for values in examples/*-values.yaml; do
-  helm template test ./charts/app-template -f "$values" >/dev/null
+  helm template test ./charts/app-blueprint -f "$values" >/dev/null
 done
 ```
 

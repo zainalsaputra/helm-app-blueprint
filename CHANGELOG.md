@@ -4,6 +4,22 @@ All notable changes are documented here. This project follows Semantic Versionin
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-22
+
+### Changed
+
+- Rename the GitHub repository to `helm-app-blueprint`.
+- Rename the Helm chart, package, helper namespace, and OCI artifact from `app-template` to `app-blueprint`.
+- Move the Helm repository URL to `https://zainalsaputra.github.io/helm-app-blueprint`.
+
+### Migration
+
+- Existing `0.1.x` releases should preserve their current `nameOverride` or set `nameOverride=app-template` during the first upgrade to avoid immutable selector changes.
+
+### Fixed
+
+- Replace the abbreviated license notice with the canonical Apache License 2.0 text.
+
 ## [0.1.2] - 2026-06-22
 
 ### Added

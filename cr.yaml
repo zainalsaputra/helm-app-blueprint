@@ -1,6 +1,6 @@
 owner: zainalsaputra
-git-repo: app-template
-charts-repo-url: https://zainalsaputra.github.io/app-template
+git-repo: helm-app-blueprint
+charts-repo-url: https://zainalsaputra.github.io/helm-app-blueprint
 pages-branch: gh-pages
 package-path: .cr-release-packages
 index-path: .cr-index

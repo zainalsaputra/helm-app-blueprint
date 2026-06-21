@@ -24,16 +24,16 @@ jobs:
           version: v3.17.3
 
       - name: Helm lint
-        run: helm lint --strict ./charts/app-template
+        run: helm lint --strict ./charts/app-blueprint
 
       - name: Render default and examples
         shell: bash
         run: |
           set -euo pipefail
-          helm template test ./charts/app-template >/dev/null
+          helm template test ./charts/app-blueprint >/dev/null
           for values in examples/*-values.yaml; do
             echo "Rendering ${values}"
-            helm template test ./charts/app-template -f "${values}" >/dev/null
+            helm template test ./charts/app-blueprint -f "${values}" >/dev/null
           done
 
       - name: Validate Kubernetes manifests
@@ -49,10 +49,10 @@ jobs:
             --output CHECKSUMS
           grep 'kubeconform-linux-amd64.tar.gz$' CHECKSUMS | sha256sum --check
           tar -xzf kubeconform-linux-amd64.tar.gz kubeconform
-          helm template test ./charts/app-template \
+          helm template test ./charts/app-blueprint \
             | ./kubeconform -strict -summary -ignore-missing-schemas
           for values in examples/*-values.yaml; do
-            helm template test ./charts/app-template -f "${values}" \
+            helm template test ./charts/app-blueprint -f "${values}" \
               | ./kubeconform -strict -summary -ignore-missing-schemas
           done
 
@@ -67,10 +67,10 @@ jobs:
           echo "07c4fee69e9402e5f66f35b4f932b66afdf9c848637f06196fc479b501d6ad29  helm-unittest.tgz" \
             | sha256sum --check
           tar -xzf helm-unittest.tgz
-          ./untt-linux-amd64 ./charts/app-template
+          ./untt-linux-amd64 ./charts/app-blueprint
 
       - name: Package chart
-        run: helm package ./charts/app-template --destination ./dist
+        run: helm package ./charts/app-blueprint --destination ./dist
 
   install-test:
     runs-on: ubuntu-latest
@@ -87,4 +87,4 @@ jobs:
         uses: helm/kind-action@ef37e7f390d99f746eb8b610417061a60e82a6cc # v1.14.0
 
       - name: Install chart
-        run: ct install --config ct.yaml --charts charts/app-template
+        run: ct install --config ct.yaml --charts charts/app-blueprint
