@@ -2,6 +2,47 @@ apiVersion: v1
 entries:
   app-template:
   - annotations:
+      artifacthub.io/alternativeName: app-template-chart
+      artifacthub.io/category: integration-delivery
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add kubeconform validation and Helm unit tests
+        - kind: added
+          description: Add OpenSSF Scorecard and CODEOWNERS metadata
+        - kind: security
+          description: Pin GitHub Actions to immutable commit SHAs
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.27-alpine
+    created: "2026-06-21T18:16:44.186478278Z"
+    description: A reusable, secure-by-default Helm chart for containerized web applications
+    digest: 2c403d04dd24a0fa27b3eff212cfd536750de40387d4646513b1f7290965afdf
+    home: https://github.com/zainalsaputra/app-template
+    icon: https://raw.githubusercontent.com/zainalsaputra/app-template/main/assets/icon.svg
+    keywords:
+    - application
+    - cloud-native
+    - devops
+    - deployment
+    - gitops
+    - helm
+    - helm-chart
+    - kubernetes
+    - web
+    - api
+    kubeVersion: '>=1.27.0-0'
+    maintainers:
+    - email: zainalsaputra@users.noreply.github.com
+      name: Zainal Saputra
+      url: https://github.com/zainalsaputra
+    name: app-template
+    sources:
+    - https://github.com/zainalsaputra/app-template
+    type: application
+    urls:
+    - https://github.com/zainalsaputra/app-template/releases/download/app-template-0.1.2/app-template-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
       artifacthub.io/category: integration-delivery
       artifacthub.io/changes: |
         - kind: fixed
@@ -63,4 +104,4 @@ entries:
     urls:
     - https://github.com/zainalsaputra/app-template/releases/download/app-template-0.1.0/app-template-0.1.0.tgz
     version: 0.1.0
-generated: "2026-06-21T13:18:24.767821628Z"
+generated: "2026-06-21T18:16:44.186490751Z"
