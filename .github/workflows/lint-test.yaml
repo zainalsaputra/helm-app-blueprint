@@ -60,8 +60,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          helm plugin install https://github.com/helm-unittest/helm-unittest.git --version v1.1.1
-          helm unittest ./charts/app-template
+          UNITTEST_VERSION=1.1.1
+          curl --fail --show-error --silent --location \
+            "https://github.com/helm-unittest/helm-unittest/releases/download/v${UNITTEST_VERSION}/helm-unittest-linux-amd64-${UNITTEST_VERSION}.tgz" \
+            --output helm-unittest.tgz
+          echo "07c4fee69e9402e5f66f35b4f932b66afdf9c848637f06196fc479b501d6ad29  helm-unittest.tgz" \
+            | sha256sum --check
+          tar -xzf helm-unittest.tgz
+          ./untt-linux-amd64 ./charts/app-template
 
       - name: Package chart
         run: helm package ./charts/app-template --destination ./dist
