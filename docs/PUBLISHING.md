@@ -41,6 +41,8 @@ git push origin app-template-0.1.0
 
 The OCI workflow verifies that the Git tag matches `Chart.yaml`, packages the chart, and pushes it to `ghcr.io/<owner>/charts/app-template`.
 
+For first-time publishing or recovery, the same workflow can be started manually with the chart version as its input.
+
 ## 5. Artifact Hub
 
 Register the GitHub Pages URL as a Helm repository. Artifact Hub returns a repository ID. Copy `artifacthub-repo.yml.example` to the root of the publishing branch as `artifacthub-repo.yml`, then replace the repository ID and owner details.
