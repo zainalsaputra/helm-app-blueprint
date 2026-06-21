@@ -1,0 +1,6 @@
+# Rename this file to artifacthub-repo.yml on the gh-pages branch after the
+# repository has been registered in Artifact Hub.
+repositoryID: REPLACE_WITH_ARTIFACT_HUB_REPOSITORY_ID
+owners:
+  - name: Zainal Saputra
+    email: zainalsaputra@users.noreply.github.com
