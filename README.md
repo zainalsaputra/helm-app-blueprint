@@ -1,4 +1,8 @@
-# app-template
+# app-template — reusable Helm application chart
+
+[![Lint and test chart](https://github.com/zainalsaputra/app-template/actions/workflows/lint-test.yaml/badge.svg)](https://github.com/zainalsaputra/app-template/actions/workflows/lint-test.yaml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/zainalsaputra/app-template/badge)](https://securityscorecards.dev/viewer/?uri=github.com/zainalsaputra/app-template)
+[![License](https://img.shields.io/github/license/zainalsaputra/app-template)](LICENSE)
 
 A reusable, secure-by-default Helm chart for deploying containerized web applications on Kubernetes.
 
@@ -35,7 +39,7 @@ helm install my-app app-template/app-template
 Or from OCI:
 
 ```bash
-helm install my-app oci://ghcr.io/zainalsaputra/charts/app-template --version 0.1.1
+helm install my-app oci://ghcr.io/zainalsaputra/charts/app-template --version 0.1.2
 ```
 
 ## Common examples
@@ -82,13 +86,14 @@ The current chart targets stateless and optionally persistent applications manag
 helm lint --strict ./charts/app-template
 helm template test ./charts/app-template
 helm template test ./charts/app-template -f examples/production-values.yaml
+helm unittest ./charts/app-template
 ```
 
-Pull requests also install the chart into a temporary Kind cluster through Helm chart-testing.
+CI also validates rendered manifests with kubeconform and installs the chart into a temporary Kind cluster through Helm chart-testing.
 
 ## Publishing status
 
-The repository identity is configured for `zainalsaputra/app-template`. After the first GitHub Pages release is live, register it in Artifact Hub and add the generated repository ID to `artifacthub-repo.yml` on the publishing branch.
+The chart is published through GitHub Pages and GHCR. Artifact Hub registration remains a one-time maintainer step described in the [publishing guide](docs/PUBLISHING.md).
 
 ## License
 

@@ -4,6 +4,18 @@ All notable changes are documented here. This project follows Semantic Versionin
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-06-22
+
+### Added
+
+- Kubeconform validation for default and example manifests.
+- Helm unit tests for secure defaults, image digests, and autoscaling behavior.
+- OpenSSF Scorecard analysis and CODEOWNERS metadata.
+
+### Security
+
+- Pin GitHub Actions to immutable commit SHAs.
+
 ## [0.1.1] - 2026-06-21
 
 ### Fixed

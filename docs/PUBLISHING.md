@@ -35,8 +35,8 @@ helm install my-app app-template/app-template
 Create and push a tag matching the chart:
 
 ```bash
-git tag app-template-0.1.1
-git push origin app-template-0.1.1
+git tag app-template-0.1.2
+git push origin app-template-0.1.2
 ```
 
 The OCI workflow verifies that the Git tag matches `Chart.yaml`, packages the chart, and pushes it to `ghcr.io/<owner>/charts/app-template`.
