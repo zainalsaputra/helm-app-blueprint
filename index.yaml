@@ -5,6 +5,47 @@ entries:
       artifacthub.io/alternativeName: helm-app-blueprint
       artifacthub.io/category: integration-delivery
       artifacthub.io/changes: |
+        - kind: security
+          description: Sign Helm chart releases and publish provenance files
+        - kind: added
+          description: Publish the chart signing public key for helm verify workflows
+        - kind: added
+          description: Document signed release verification for repository downloads
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.27-alpine
+    created: "2026-06-28T13:27:30.42542214Z"
+    description: A reusable, secure-by-default Helm chart for containerized web applications
+    digest: 13e7d79e5ee936ae188cf739a9a812a329c36042d8632760146fde824f919ca6
+    home: https://github.com/zainalsaputra/helm-app-blueprint
+    icon: https://raw.githubusercontent.com/zainalsaputra/helm-app-blueprint/main/assets/icon.svg
+    keywords:
+    - application
+    - cloud-native
+    - devops
+    - deployment
+    - gitops
+    - helm
+    - helm-chart
+    - kubernetes
+    - web
+    - api
+    kubeVersion: '>=1.27.0-0'
+    maintainers:
+    - email: zainalsaputra@users.noreply.github.com
+      name: Zainal Saputra
+      url: https://github.com/zainalsaputra
+    name: app-blueprint
+    sources:
+    - https://github.com/zainalsaputra/helm-app-blueprint
+    type: application
+    urls:
+    - https://github.com/zainalsaputra/helm-app-blueprint/releases/download/app-blueprint-0.2.1/app-blueprint-0.2.1.tgz
+    version: 0.2.1
+  - annotations:
+      artifacthub.io/alternativeName: helm-app-blueprint
+      artifacthub.io/category: integration-delivery
+      artifacthub.io/changes: |
         - kind: changed
           description: Rename the chart from app-template to app-blueprint
         - kind: changed
@@ -148,4 +189,4 @@ entries:
     urls:
     - https://github.com/zainalsaputra/app-template/releases/download/app-template-0.1.0/app-template-0.1.0.tgz
     version: 0.1.0
-generated: "2026-06-21T18:38:15.136084776Z"
+generated: "2026-06-28T13:27:30.425433717Z"
