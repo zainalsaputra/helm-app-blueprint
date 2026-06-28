@@ -68,11 +68,44 @@ jobs:
             --passphrase-file "${RUNNER_TEMP}/helm-gpg-passphrase"
           test -f .cr-release-packages/app-blueprint-*.tgz.prov
 
-      - name: Release chart
-        uses: helm/chart-releaser-action@cae68fefc6b5f367a0275617c9f83181ba54714f # v1.7.0
-        with:
-          charts_dir: charts
-          config: cr.yaml
-          skip_packaging: true
+      - name: Publish signed chart release
+        shell: bash
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          chart_name=$(helm show chart ./charts/app-blueprint | awk '/^name:/ { print $2 }')
+          chart_version=$(helm show chart ./charts/app-blueprint | awk '/^version:/ { print $2 }')
+          tag="${chart_name}-${chart_version}"
+          package=".cr-release-packages/${tag}.tgz"
+          provenance="${package}.prov"
+          download_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${tag}"
+
+          test -f "${package}"
+          test -f "${provenance}"
+
+          if gh release view "${tag}" >/dev/null 2>&1; then
+            gh release upload "${tag}" "${package}" "${provenance}" --clobber
+          else
+            gh release create "${tag}" "${package}" "${provenance}" \
+              --title "${tag}" \
+              --notes "Release ${tag}" \
+              --target "${GITHUB_SHA}" \
+              --latest
+          fi
+
+          git fetch origin gh-pages
+          git worktree add .cr-index origin/gh-pages
+          helm repo index .cr-release-packages \
+            --url "${download_url}" \
+            --merge .cr-index/index.yaml
+          cp .cr-release-packages/index.yaml .cr-index/index.yaml
+
+          if [[ -n "$(git -C .cr-index status --porcelain)" ]]; then
+            git -C .cr-index add index.yaml
+            git -C .cr-index commit -m "Update index.yaml"
+            git -C .cr-index push origin HEAD:gh-pages
+          else
+            echo "Helm repository index is already up to date."
+          fi
