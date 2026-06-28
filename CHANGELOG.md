@@ -4,6 +4,18 @@ All notable changes are documented here. This project follows Semantic Versionin
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-06-28
+
+### Security
+
+- Sign Helm chart packages and publish provenance files for repository releases.
+- Store the release signing private key and passphrase in GitHub Actions secrets.
+
+### Added
+
+- Publish the chart signing public key at `keys/helm-app-blueprint.asc`.
+- Document release provenance verification with `helm verify`.
+
 ## [0.2.0] - 2026-06-22
 
 ### Changed

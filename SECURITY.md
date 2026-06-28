@@ -22,3 +22,6 @@ Maintainers should acknowledge a report within five business days and coordinate
 
 This policy covers the Helm chart templates and release process. Vulnerabilities in an application image selected by a chart user must be reported to that image's publisher.
 
+## Release provenance
+
+Helm chart repository releases are signed with a dedicated release key. The public key is available at `keys/helm-app-blueprint.asc`, and signed packages can be verified with `helm verify` when the matching `.tgz.prov` file is present.

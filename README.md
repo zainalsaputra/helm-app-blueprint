@@ -40,7 +40,7 @@ helm install my-app helm-app-blueprint/app-blueprint
 Or from OCI:
 
 ```bash
-helm install my-app oci://ghcr.io/zainalsaputra/charts/app-blueprint --version 0.2.0
+helm install my-app oci://ghcr.io/zainalsaputra/charts/app-blueprint --version 0.2.1
 ```
 
 ## Common examples
@@ -88,6 +88,21 @@ helm upgrade my-app helm-app-blueprint/app-blueprint \
 ```
 
 Keep your existing override unchanged if the release already defines one. New installations do not need this compatibility setting.
+
+## Verify signed releases
+
+Repository releases are signed with the Helm App Blueprint release key:
+
+```text
+83277AE8E473B1DE0E1D099C97173EB43D39EA40
+```
+
+Download the chart package and provenance file from the GitHub release, then verify them with the public key in this repository:
+
+```bash
+gpg --dearmor --output helm-app-blueprint.gpg keys/helm-app-blueprint.asc
+helm verify app-blueprint-0.2.1.tgz --keyring ./helm-app-blueprint.gpg
+```
 
 ## Documentation
 

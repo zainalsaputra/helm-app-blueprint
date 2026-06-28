@@ -2,7 +2,7 @@ apiVersion: v2
 name: app-blueprint
 description: A reusable, secure-by-default Helm chart for containerized web applications
 type: application
-version: 0.2.0
+version: 0.2.1
 appVersion: "1.27-alpine"
 kubeVersion: ">=1.27.0-0"
 keywords:
@@ -29,11 +29,9 @@ annotations:
   artifacthub.io/category: integration-delivery
   artifacthub.io/license: Apache-2.0
   artifacthub.io/changes: |
-    - kind: changed
-      description: Rename the chart from app-template to app-blueprint
-    - kind: changed
-      description: Move the project to the helm-app-blueprint repository identity
+    - kind: security
+      description: Sign Helm chart releases and publish provenance files
     - kind: added
-      description: Document the upgrade path for existing app-template releases
-    - kind: fixed
-      description: Include the canonical Apache License 2.0 text
+      description: Publish the chart signing public key for helm verify workflows
+    - kind: added
+      description: Document signed release verification for repository downloads

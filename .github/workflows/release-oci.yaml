@@ -18,6 +18,9 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      HELM_GPG_KEY_FINGERPRINT: 83277AE8E473B1DE0E1D099C97173EB43D39EA40
+      HELM_GPG_KEY_NAME: "Helm App Blueprint Release <zainalsaputra@users.noreply.github.com>"
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
@@ -45,10 +48,39 @@ jobs:
             --username "${{ github.actor }}" \
             --password-stdin
 
-      - name: Package and push
+      - name: Import chart signing key
+        shell: bash
+        env:
+          HELM_GPG_PRIVATE_KEY: ${{ secrets.HELM_GPG_PRIVATE_KEY }}
+          HELM_GPG_PASSPHRASE: ${{ secrets.HELM_GPG_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          test -n "${HELM_GPG_PRIVATE_KEY}"
+          test -n "${HELM_GPG_PASSPHRASE}"
+
+          export GNUPGHOME="${RUNNER_TEMP}/gnupg"
+          mkdir -p "${GNUPGHOME}"
+          chmod 700 "${GNUPGHOME}"
+
+          printf '%s' "${HELM_GPG_PRIVATE_KEY}" | gpg --batch --import
+          printf '%s' "${HELM_GPG_PASSPHRASE}" > "${RUNNER_TEMP}/helm-gpg-passphrase"
+          chmod 600 "${RUNNER_TEMP}/helm-gpg-passphrase"
+
+          gpg --batch --yes --pinentry-mode loopback \
+            --passphrase-file "${RUNNER_TEMP}/helm-gpg-passphrase" \
+            --output "${RUNNER_TEMP}/helm-secring.gpg" \
+            --export-secret-keys "${HELM_GPG_KEY_FINGERPRINT}"
+
+      - name: Package and push signed chart
         shell: bash
         run: |
           set -euo pipefail
           owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          helm package ./charts/app-blueprint --destination ./dist
+          helm package ./charts/app-blueprint \
+            --destination ./dist \
+            --sign \
+            --key "${HELM_GPG_KEY_NAME}" \
+            --keyring "${RUNNER_TEMP}/helm-secring.gpg" \
+            --passphrase-file "${RUNNER_TEMP}/helm-gpg-passphrase"
+          test -f ./dist/app-blueprint-*.tgz.prov
           helm push ./dist/app-blueprint-*.tgz "oci://ghcr.io/${owner}/charts"
