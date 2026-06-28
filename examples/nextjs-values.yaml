@@ -1,0 +1,86 @@
+# Example values for a Next.js application running as a server-rendered web app.
+#
+# Assumptions:
+# - The application listens on port 3000.
+# - A lightweight health route is exposed at /api/health.
+# - Sensitive runtime values are provided by an existing Kubernetes Secret.
+
+replicaCount: 2
+
+nameOverride: nextjs-web
+
+image:
+  repository: ghcr.io/example/nextjs-web
+  tag: "1.0.0"
+
+configMap:
+  create: true
+  data:
+    NODE_ENV: production
+    NEXT_TELEMETRY_DISABLED: "1"
+    PORT: "3000"
+    NEXT_PUBLIC_API_BASE_URL: https://api.example.com
+
+secret:
+  existingSecret: nextjs-web-secrets
+
+container:
+  ports:
+    http:
+      containerPort: 3000
+      protocol: TCP
+
+probes:
+  startup:
+    enabled: true
+    httpGet:
+      path: /api/health
+      port: http
+    periodSeconds: 5
+    failureThreshold: 30
+  readiness:
+    enabled: true
+    httpGet:
+      path: /api/health
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  liveness:
+    enabled: true
+    httpGet:
+      path: /api/health
+      port: http
+    initialDelaySeconds: 15
+    periodSeconds: 20
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 768Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 70
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: web.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+          servicePort: http
+  tls:
+    - secretName: web-example-com-tls
+      hosts:
+        - web.example.com
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 1

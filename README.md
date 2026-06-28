@@ -68,6 +68,12 @@ helm template demo ./charts/app-blueprint -f examples/production-values.yaml
 # Node.js API
 helm template nodejs-api ./charts/app-blueprint -f examples/nodejs-api-values.yaml
 
+# React SPA
+helm template react-spa ./charts/app-blueprint -f examples/react-spa-values.yaml
+
+# Next.js web app
+helm template nextjs-web ./charts/app-blueprint -f examples/nextjs-values.yaml
+
 # Externally managed Secret
 helm template demo ./charts/app-blueprint -f examples/existing-secret-values.yaml
 
@@ -92,6 +98,20 @@ Deploy a Node.js API from the example values:
 ```bash
 helm install nodejs-api helm-app-blueprint/app-blueprint \
   -f examples/nodejs-api-values.yaml
+```
+
+Deploy a React single-page application:
+
+```bash
+helm install react-spa helm-app-blueprint/app-blueprint \
+  -f examples/react-spa-values.yaml
+```
+
+Deploy a Next.js server-rendered application:
+
+```bash
+helm install nextjs-web helm-app-blueprint/app-blueprint \
+  -f examples/nextjs-values.yaml
 ```
 
 Use non-sensitive environment variables:
@@ -203,6 +223,8 @@ helm lint --strict ./charts/app-blueprint
 helm template test ./charts/app-blueprint
 helm template test ./charts/app-blueprint -f examples/production-values.yaml
 helm template nodejs-api ./charts/app-blueprint -f examples/nodejs-api-values.yaml
+helm template react-spa ./charts/app-blueprint -f examples/react-spa-values.yaml
+helm template nextjs-web ./charts/app-blueprint -f examples/nextjs-values.yaml
 helm unittest ./charts/app-blueprint
 ```
 
